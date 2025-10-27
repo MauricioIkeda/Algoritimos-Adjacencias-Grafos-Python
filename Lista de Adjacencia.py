@@ -3,6 +3,12 @@ class Grafo():
         self.ListaAdjacencia = {vertice: []}
         self.direcional = direcional
 
+    def ExibirGrafos(self):
+        print("Grafinho Lindo:")
+        for vertice in self.ListaAdjacencia:
+            print(f"{vertice} - {self.ListaAdjacencia.get(vertice)}")
+        print()
+
     def AddVertice(self, vertice):
         self.ListaAdjacencia[vertice] = []
     
@@ -87,3 +93,5 @@ grafo.VerificarPercurso(["A", "C", "B"])
 grafo.RemoverAresta(["A", "B"])
 
 grafo.VerificarAresta("A", "B")
+
+grafo.ExibirGrafos()
