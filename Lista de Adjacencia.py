@@ -1,26 +1,32 @@
 class Grafo():
-    def __init__(self, vertice):
+    def __init__(self, vertice, direcional):
         self.ListaAdjacencia = {vertice: []}
+        self.direcional = direcional
 
     def AddVertice(self, vertice):
         self.ListaAdjacencia[vertice] = []
     
     def AddAresta(self, vertice1, vertice2):
         self.ListaAdjacencia[vertice1].append(vertice2)
-        self.ListaAdjacencia[vertice2].append(vertice1)
+
+        if self.direcional:
+            self.ListaAdjacencia[vertice2].append(vertice1)
 
     def RemoverVertice(self, verticeRemover):
         self.ListaAdjacencia.pop(verticeRemover)
 
-        for vertice in self.ListaAdjacencia.keys():
-            if verticeRemover in self.ListaAdjacencia[vertice]:
-                self.ListaAdjacencia[vertice].pop(self.ListaAdjacencia[vertice].index(verticeRemover))
+        if self.direcional:
+            for vertice in self.ListaAdjacencia.keys():
+                if verticeRemover in self.ListaAdjacencia[vertice]:
+                    self.ListaAdjacencia[vertice].pop(self.ListaAdjacencia[vertice].index(verticeRemover))
         
         print(f"Vertice {verticeRemover} exluido com sucesso!\n")
 
     def RemoverAresta(self, aresta):
         self.ListaAdjacencia[aresta[0]].remove(aresta[1])
-        self.ListaAdjacencia[aresta[1]].remove(aresta[0])
+
+        if self.direcional:
+            self.ListaAdjacencia[aresta[1]].remove(aresta[0])
 
         print(f"Aresta {aresta} removida com sucesso!\n")
 
@@ -35,7 +41,10 @@ class Grafo():
             print(f"Não existe a aresta {vertice1, vertice2}\n")
     
     def ListarVizinhoVertice(self, vertice):
-        print(f"Os vizinhos do vertice {vertice} são: {self.ListaAdjacencia[vertice]}\n")
+        if vertice in self.ListaAdjacencia:
+            print(f"Os vizinhos do vertice {vertice} são: {self.ListaAdjacencia[vertice]}\n")
+        else:
+            print(f"Não existe o vertice {vertice}")
 
     def VerificarPercurso(self, percurso):
         for index, vertice in enumerate(percurso):
@@ -47,7 +56,7 @@ class Grafo():
                 print(f"Tem este percurso {percurso}\n")
                 return    
 
-grafo = Grafo("A")
+grafo = Grafo("A", False)
 
 grafo.AddVertice("B")
 grafo.AddVertice("C")
