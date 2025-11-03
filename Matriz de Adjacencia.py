@@ -19,7 +19,7 @@ class Grafo():
             print()
         print()
 
-    def AddVertice(self, nomeVertice):
+    def AddVertice(self, nomeVertice : str):
         verticeNovo = [[], nomeVertice]
 
         self.MatrizAdjacencia.append(verticeNovo[0])
@@ -30,8 +30,14 @@ class Grafo():
         
         print("Vertice adicionado com sucesso!")
         self.ExibirMatriz()
-    
-    def AddAresta(self, vertice1Nome, vertice2Nome):
+
+    def AddAresta(self, vertice1Nome : str, vertice2Nome : str):
+        if vertice1Nome not in self.ListaVertices:
+            self.AddVertice(vertice1Nome)
+        
+        if vertice2Nome not in self.ListaVertices:
+            self.AddVertice(vertice2Nome)
+
         index1 = self.ListaVertices.index(vertice1Nome)
         index2 = self.ListaVertices.index(vertice2Nome)
 
@@ -40,7 +46,7 @@ class Grafo():
         print(f"Aresta adicionado com sucesso na linha {vertice1Nome} no coluna {vertice2Nome}")
         self.ExibirMatriz()
 
-    def RemoverVertice(self, verticeNome):
+    def RemoverVertice(self, verticeNome : str):
         indiceVertice = self.ListaVertices.index(verticeNome)
         self.ListaVertices.pop(indiceVertice)
         self.MatrizAdjacencia.pop(indiceVertice)
@@ -51,7 +57,7 @@ class Grafo():
         print(f"Vertice {verticeNome} exluido com sucesso!\n")
         self.ExibirMatriz()
 
-    def RemoverAresta(self, vertice1Nome, vertice2Nome):
+    def RemoverAresta(self, vertice1Nome : str, vertice2Nome : str):
         index1 = self.ListaVertices.index(vertice1Nome)
         index2 = self.ListaVertices.index(vertice2Nome)
         self.MatrizAdjacencia[index1][index2] = 0
@@ -74,8 +80,8 @@ class Grafo():
             grauEntrada = sum(coluna)
             print(f"O grau de saida do vertice {index + 1} é {grauEntrada}")
         print("=================================\n")
-    
-    def VerificarAresta(self, vertice1Nome, vertice2Nome):
+
+    def VerificarAresta(self, vertice1Nome : str, vertice2Nome : str):
         index1 = self.ListaVertices.index(vertice1Nome)
         index2 = self.ListaVertices.index(vertice2Nome)
         teste = self.MatrizAdjacencia[index1][index2]
@@ -84,8 +90,8 @@ class Grafo():
             print(f"Existe uma aresta {vertice1Nome, vertice2Nome}\n")
         else:
             print(f"Não existe a aresta {vertice1Nome, vertice2Nome}\n")
-    
-    def ListarVizinhoVertice(self, verticeNome):
+
+    def ListarVizinhoVertice(self, verticeNome : str):
         vizinhos = set()
 
         vertice = self.ListaVertices.index(verticeNome)
@@ -103,7 +109,7 @@ class Grafo():
         return vizinhos
 
 
-    def VerificarPercurso(self, percurso):
+    def VerificarPercurso(self, percurso : list[str]):
         self.debugar = False
 
         percursoVerificar = percurso.copy()
