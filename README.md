@@ -5,6 +5,15 @@ Esses algoritmos são ótimos para fins didáticos e podem ser adaptados para ap
 
 ---
 
+## 👤 Autores
+
+Nome: Mauricio Shiguemitsu Kamado Ikeda // RA: 1999029
+Nome: Vinicius Estevão Consolino Brandi // RA: 2002558
+Nome: Vitor Soares Dos Santos // RA : 2002898
+
+
+---
+
 ## 📂 Estrutura do Projeto
 
 ```
