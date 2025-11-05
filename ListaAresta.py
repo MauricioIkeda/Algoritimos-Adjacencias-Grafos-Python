@@ -12,14 +12,21 @@ class Grafo:
     
     def AddVertice(self, vertice):
         if self.existeVertice(vertice):
+            print(f"Já existe a vertice {vertice}")
             return
         self.vertices.append(vertice)
+        print(f"Vertice {vertice} adicionada")
 
     def DelVertice(self, vertice):
         if not self.existeVertice(vertice):
+            print(f"Vertice {vertice} não existe")
             return
         self.vertices.remove(vertice)
+        print(f'Vertice {vertice} removida')
+        arestas_removidas = [a for a in self.listaArestas if vertice in a]
         self.listaArestas = [a for a in self.listaArestas if vertice not in a]
+        print(f"Arestas removidas ligadas a {vertice}: {arestas_removidas}")
+
 
     def AddAresta(self, vertice1, vertice2):
         if not self.existeVertice(vertice1) or not self.existeVertice(vertice2):
@@ -90,3 +97,5 @@ g.CalcularGrauDeUm("A")
 
 g.VerificarPercurso(["A", "B", "C"])
 g.VerificarPercurso(["A", "C"])
+
+g.DelVertice("D")
