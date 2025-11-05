@@ -6,20 +6,29 @@ class Grafo():
     
     def ExibirMatriz(self):
         largura_coluna = max([len(v) for v in self.ListaVertices] + [3])
+        print(" " * (largura_coluna * len(self.ListaVertices)) + "Entradas")
 
-        print(" " * (largura_coluna + 3), end="")
+
+        print(" " * (largura_coluna + 5), end="")
         for nome in self.ListaVertices:
             print(f"{nome:>{largura_coluna}}", end=" ")
         print()
 
+        print("Saidas")
+        
         for index, linha in enumerate(self.MatrizAdjacencia):
-            print(f"{self.ListaVertices[index]:<{largura_coluna}} |", end=" ")
+            print(f"{self.ListaVertices[index]:<{largura_coluna + 2}} |", end=" ")
             for elemento in linha:
                 print(f"{elemento:>{largura_coluna}}", end=" ")
             print()
         print()
+        
 
     def AddVertice(self, nomeVertice : str):
+        if nomeVertice in self.ListaVertices:
+            print("Esse vertice ja existe")
+            return
+        
         verticeNovo = [[], nomeVertice]
 
         self.MatrizAdjacencia.append(verticeNovo[0])
@@ -31,7 +40,7 @@ class Grafo():
         print("Vertice adicionado com sucesso!")
         self.ExibirMatriz()
 
-    def AddAresta(self, vertice1Nome : str, vertice2Nome : str):
+    def AddAresta(self, vertice1Nome : str, vertice2Nome : str):        
         if vertice1Nome not in self.ListaVertices:
             self.AddVertice(vertice1Nome)
         
@@ -40,6 +49,10 @@ class Grafo():
 
         index1 = self.ListaVertices.index(vertice1Nome)
         index2 = self.ListaVertices.index(vertice2Nome)
+        
+        if self.MatrizAdjacencia[index1][index2] == 1:
+            print("Essa aresta ja existe")
+            return
 
         self.MatrizAdjacencia[index1][index2] = 1
 
@@ -47,6 +60,10 @@ class Grafo():
         self.ExibirMatriz()
 
     def RemoverVertice(self, verticeNome : str):
+        if verticeNome not in self.ListaVertices:
+            print("Não existe esse vertice")
+            return
+        
         indiceVertice = self.ListaVertices.index(verticeNome)
         self.ListaVertices.pop(indiceVertice)
         self.MatrizAdjacencia.pop(indiceVertice)
@@ -58,6 +75,10 @@ class Grafo():
         self.ExibirMatriz()
 
     def RemoverAresta(self, vertice1Nome : str, vertice2Nome : str):
+        if vertice1Nome not in self.ListaVertices and vertice2Nome not in self.ListaVertices:
+            print("Nao existe esta aresta")
+            return
+        
         index1 = self.ListaVertices.index(vertice1Nome)
         index2 = self.ListaVertices.index(vertice2Nome)
         self.MatrizAdjacencia[index1][index2] = 0
@@ -65,21 +86,17 @@ class Grafo():
         print(f"Aresta do vertice ({vertice1Nome}, {vertice2Nome}) removida com sucesso!\n")
         self.ExibirMatriz()
 
-    def CalcularGrauEntrada(self):
-        print("=================================")
+    def CalcularGrau(self):
+        dicionarioGrau = {}
+        
         for index in range(len(self.MatrizAdjacencia)):
             grauEntrada = 0
+            grauSaida = sum(self.MatrizAdjacencia[index])
             for coluna in self.MatrizAdjacencia:
                 grauEntrada += coluna[index]
-            print(f"O grau de entrada do vertice {index + 1} é {grauEntrada}")
-        print("=================================\n")
-
-    def CalcularGrauSaida(self):
-        print("=================================")
-        for index, coluna in enumerate(self.MatrizAdjacencia):
-            grauEntrada = sum(coluna)
-            print(f"O grau de saida do vertice {index + 1} é {grauEntrada}")
-        print("=================================\n")
+            dicionarioGrau[self.ListaVertices[index]] = {"Entrada": grauEntrada, "Saida": grauSaida}
+        
+        print(dicionarioGrau)
 
     def VerificarAresta(self, vertice1Nome : str, vertice2Nome : str):
         index1 = self.ListaVertices.index(vertice1Nome)
@@ -140,9 +157,6 @@ grafo.AddAresta("V3", "V1")
 
 grafo.RemoverAresta("V2", "V3")
 
-grafo.CalcularGrauEntrada()
-grafo.CalcularGrauSaida()
-
 grafo.VerificarAresta("V1", "V3")
 grafo.VerificarAresta("V2", "V1")
 
@@ -153,3 +167,5 @@ grafo.VerificarPercurso(["V2", "V1", "V3"])
 grafo.VerificarPercurso(["V1", "V3", "V4"])
 
 grafo.RemoverVertice("V2")
+
+grafo.CalcularGrau()
