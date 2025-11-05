@@ -10,14 +10,16 @@ class Grafo():
         print()
 
     def AddVertice(self, vertice : str):
+        if vertice in self.ListaAdjacencia:
+            print("Esse vertice ja existe")
+            return
+        
         self.ListaAdjacencia[vertice] = []
 
     def AddAresta(self, vertice1 : str, vertice2 : str):
-        if vertice1 not in self.ListaAdjacencia.keys():
-            self.AddVertice(vertice1)
-
-        if vertice2 not in self.ListaAdjacencia.keys():
-            self.AddVertice(vertice2)
+        if vertice1 not in self.ListaAdjacencia.keys() or vertice2 not in self.ListaAdjacencia.keys():
+            print("Vertice nao existente nesse grafo! Adicione-o antes")
+            return
 
         self.ListaAdjacencia[vertice1].append(vertice2)
 
@@ -25,6 +27,10 @@ class Grafo():
             self.ListaAdjacencia[vertice2].append(vertice1)
 
     def RemoverVertice(self, verticeRemover : str):
+        if verticeRemover not in self.ListaAdjacencia:
+            print("Esse vertice nao existe!")
+            return
+        
         self.ListaAdjacencia.pop(verticeRemover)
 
         for vertice in self.ListaAdjacencia.keys():
@@ -39,6 +45,10 @@ class Grafo():
         print(f"Vertice {verticeRemover} exluido com sucesso!\n")
 
     def RemoverAresta(self, aresta : list[str]):
+        if self.VerificarAresta(aresta[0], aresta[1]) == False:
+            print("Essa aresta nao existe")
+            return
+        
         self.ListaAdjacencia[aresta[0]].remove(aresta[1])
 
         if self.direcional:
@@ -69,8 +79,10 @@ class Grafo():
     def VerificarAresta(self, vertice1 : str, vertice2 : str):
         if vertice2 in self.ListaAdjacencia[vertice1]:
             print(f"Existe uma aresta {vertice1, vertice2}\n")
+            return True
         else:
             print(f"Não existe a aresta {vertice1, vertice2}\n")
+            return False
 
     def ListarVizinhoVertice(self, vertice : str):
         if vertice in self.ListaAdjacencia:

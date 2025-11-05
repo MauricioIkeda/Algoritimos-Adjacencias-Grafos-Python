@@ -40,20 +40,18 @@ class Grafo():
         print("Vertice adicionado com sucesso!")
         self.ExibirMatriz()
 
-    def AddAresta(self, vertice1Nome : str, vertice2Nome : str):        
-        if vertice1Nome not in self.ListaVertices:
-            self.AddVertice(vertice1Nome)
+    def AddAresta(self, vertice1Nome : str, vertice2Nome : str):
+        if self.VerificarAresta(vertice1Nome, vertice2Nome) == True:
+            print("Essa aresta ja existe")
+            return
         
-        if vertice2Nome not in self.ListaVertices:
-            self.AddVertice(vertice2Nome)
+        if vertice1Nome not in self.ListaVertices or vertice2Nome not in self.ListaVertices:
+            print("Não existe vertices solicitados para criação da aresta")
+            return
 
         index1 = self.ListaVertices.index(vertice1Nome)
         index2 = self.ListaVertices.index(vertice2Nome)
         
-        if self.MatrizAdjacencia[index1][index2] == 1:
-            print("Essa aresta ja existe")
-            return
-
         self.MatrizAdjacencia[index1][index2] = 1
 
         print(f"Aresta adicionado com sucesso na linha {vertice1Nome} no coluna {vertice2Nome}")
@@ -75,7 +73,7 @@ class Grafo():
         self.ExibirMatriz()
 
     def RemoverAresta(self, vertice1Nome : str, vertice2Nome : str):
-        if vertice1Nome not in self.ListaVertices and vertice2Nome not in self.ListaVertices:
+        if self.VerificarAresta(vertice1Nome, vertice2Nome) == False:
             print("Nao existe esta aresta")
             return
         
@@ -105,8 +103,10 @@ class Grafo():
 
         if teste == 1:
             print(f"Existe uma aresta {vertice1Nome, vertice2Nome}\n")
+            return True
         else:
             print(f"Não existe a aresta {vertice1Nome, vertice2Nome}\n")
+            return False
 
     def ListarVizinhoVertice(self, verticeNome : str):
         vizinhos = set()
