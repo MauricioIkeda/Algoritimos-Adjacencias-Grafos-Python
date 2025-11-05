@@ -83,6 +83,12 @@ class Grafo:
                 return False
         print(f'Percurso {" -> ".join(percurso)} é válido')
         return True
+    
+    def ExibirGrafo(self):
+        self.listaArestas.sort()
+        print("\nGrafinho:")
+        for aresta in self.listaArestas:
+            print(f"{aresta[0]} : {aresta[1]}")
 
 g = Grafo(False, ["A", "B", "C", "D"])
 g.AddVertice("A")
@@ -99,3 +105,5 @@ g.VerificarPercurso(["A", "B", "C"])
 g.VerificarPercurso(["A", "C"])
 
 g.DelVertice("D")
+
+g.ExibirGrafo()
