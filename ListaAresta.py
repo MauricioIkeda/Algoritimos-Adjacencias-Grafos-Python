@@ -1,3 +1,4 @@
+from collections import deque
 class Grafo:
     def __init__(self, direcional: bool, vertices: list[str]):
         self.direcional = direcional    #Se é direcional ou não
@@ -73,7 +74,7 @@ class Grafo:
         if not self.existeVertice(vert):
             return
         vizinhos = [a[1] for a in self.listaArestas if a[0] == vert]
-        print(f'{vert}: {" ".join(vizinhos) if vizinhos else "(sem vizinhos)"}')
+        return [a[1] for a in self.listaArestas if a[0] == vert]
 
     def VerificarPercurso(self, percurso: list[str]):
         for i in range(len(percurso) - 1):
@@ -90,6 +91,36 @@ class Grafo:
         for aresta in self.listaArestas:
             print(f"{aresta[0]} : {aresta[1]}")
 
+    def BuscaEmLargura(self, vertice, vertproc):
+        fila = deque()
+        visitados = []
+        fila.append(vertice)
+        while fila:
+            visitando = fila.popleft()
+            visitados.append(visitando)
+            if visitando == vertproc:
+                print(f"Encontrado {visitando}")
+                print(visitados)
+                return
+            vizinhos = self.VerificarVizinho(visitando)
+            for i in vizinhos:
+                if (i not in visitados) and (i not in fila):
+                    fila.append(i)
+        print(f"Não encontrado")
+    
+    def ListarTudoEmLargura(self, vertice):
+        fila = deque()
+        visitados = []
+        fila.append(vertice)
+        while fila:
+            visitando = fila.popleft()
+            vizinhos = self.VerificarVizinho(visitando)
+            visitados.append(visitando)
+            for i in vizinhos:
+                if (i not in visitados) and (i not in fila):
+                    fila.append(i)
+        print(visitados)
+
 g = Grafo(False, ["A", "B", "C", "D"])
 g.AddVertice("A")
 g.AddVertice("E")
@@ -100,6 +131,10 @@ g.AddAresta("A", "E")
 
 g.CalculaGrauGeral()
 g.CalcularGrauDeUm("A")
+print("\n")
+g.BuscaEmLargura("A", "E")
+print("\n")
+g.ListarTudoEmLargura("A")
 
 g.VerificarPercurso(["A", "B", "C"])
 g.VerificarPercurso(["A", "C"])
