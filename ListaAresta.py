@@ -102,10 +102,15 @@ class Grafo:
                 print(f"Encontrado {visitando}")
                 print(visitados)
                 return
+
             vizinhos = self.VerificarVizinho(visitando)
-            for i in vizinhos:
-                if (i not in visitados) and (i not in fila):
-                    fila.append(i)
+            if vertproc in vizinhos:
+                fila.append(vertproc)
+                vizinhos.remove(vertproc)
+            else:
+                for i in vizinhos:
+                    if (i not in visitados) and (i not in fila):
+                        fila.append(i)
         print(f"Não encontrado")
     
     def ListarTudoEmLargura(self, vertice):
