@@ -74,7 +74,7 @@ class Grafo:
         if not self.existeVertice(vert):
             return
         vizinhos = [a[1] for a in self.listaArestas if a[0] == vert]
-        return [a[1] for a in self.listaArestas if a[0] == vert]
+        return sorted([a[1] for a in self.listaArestas if a[0] == vert])
 
     def VerificarPercurso(self, percurso: list[str]):
         for i in range(len(percurso) - 1):
@@ -91,6 +91,17 @@ class Grafo:
         for aresta in self.listaArestas:
             print(f"{aresta[0]} : {aresta[1]}")
 
+    def ExibirGrafoBonitinho(self):
+        print("\nGrafinho (lista de adjacência):")
+        for v in sorted(self.vertices):
+            vizinhos = []
+            for a in self.listaArestas:
+                if a[0] == v:
+                    vizinhos.append(a[1])
+            print(f"{v} -> {', '.join(vizinhos) if vizinhos else '∅'}")
+
+
+    # Busca em Largura
     def BuscaEmLargura(self, vertice, vertproc):
         fila = deque()
         visitados = []
@@ -126,23 +137,68 @@ class Grafo:
                     fila.append(i)
         print(visitados)
 
-g = Grafo(False, ["A", "B", "C", "D"])
+        #Busca em profundidade
+    
+    def ListarTudoEmProfundidade(self, vertice):
+        pilha = [vertice]
+        visitados = []
+
+        while pilha:
+            visitando = pilha.pop()
+
+            if visitando not in visitados:
+                visitados.append(visitando)
+                vizinhos = self.VerificarVizinho(visitando)
+                for vizinho in vizinhos:
+                    if (vizinho not in visitados) or (vizinho not in pilha):
+                        pilha.append(vizinho)
+
+        print(f'{visitados}')
+
+    def BuscarPorProfundidade(self, vertice, vertproc):
+        pilha = [vertice]
+        visitados = []
+        while pilha:
+            visitando = pilha.pop()
+            if visitando not in visitados:
+                visitados.append(visitando)
+                if visitando == vertproc:
+                    print(F'Vertice encontrado: {visitando}\n{visitados}')
+                    return f'Cabo'
+                vizinhos = self.VerificarVizinho(visitando)
+                for vizinho in vizinhos:
+                    if (vizinho not in visitados) or (vizinho not in pilha):
+                        pilha.append(vizinho)
+        print(f'{vertproc} NÃO ENCONTRADO')
+
+
+    #def BuscaEm
+
+
+g = Grafo(False, ["A", "B", "C", "D", "E", "F", "G"])
 g.AddVertice("A")
 g.AddVertice("E")
 g.AddAresta("A", "B")
 g.AddAresta("B", "C")
 g.AddAresta("C", "D")
 g.AddAresta("A", "E")
+g.AddAresta("E", "F")
+g.AddAresta("F", "G")
 
-g.CalculaGrauGeral()
-g.CalcularGrauDeUm("A")
-print("\n")
-g.BuscaEmLargura("A", "E")
-print("\n")
-g.ListarTudoEmLargura("A")
+# g.CalculaGrauGeral()
+# g.CalcularGrauDeUm("A")
+# print("\n")
+# g.BuscaEmLargura("A", "E")
+# print("\n")
+# g.ListarTudoEmLargura("A")
 
-g.VerificarPercurso(["A", "B", "C"])
-g.VerificarPercurso(["A", "C"])
+# g.VerificarPercurso(["A", "B", "C"])
+# g.VerificarPercurso(["A", "C"])
+
+g.ExibirGrafoBonitinho()
+
+g.ListarTudoEmProfundidade("A")
+g.BuscarPorProfundidade("A", "F")
 
 g.DelVertice("D")
 
