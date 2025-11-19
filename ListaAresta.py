@@ -186,6 +186,7 @@ class Grafo:
                     vizinhos = self.VerificarVizinho(visitando)
                     for vizinho in vizinhos:
                         if vizinho in pilhaAtivos:
+                            print(f'Alerta de ciclo!!! {visitados}, depois dai vem {vizinho}')
                             print(f'Ciclo detectado envolvendo o vértice: {vizinho}')
                             return True
                         if (vizinho not in visitados) or (vizinho not in pilha):
@@ -220,11 +221,13 @@ g = Grafo(True, ["A", "B", "C", "D", "E", "F", "G"])
 g.AddVertice("A")
 g.AddVertice("E")
 g.AddAresta("A", "B")
+g.AddAresta("C","B")
 g.AddAresta("B", "C")
 g.AddAresta("C", "D")
 g.AddAresta("A", "E")
 g.AddAresta("E", "F")
 g.AddAresta("F", "G")
+print("\n")
 
 # g.CalculaGrauGeral()
 # g.CalcularGrauDeUm("A")
@@ -235,14 +238,15 @@ g.AddAresta("F", "G")
 
 # g.VerificarPercurso(["A", "B", "C"])
 # g.VerificarPercurso(["A", "C"])
-
+print("\n")
 g.ExibirGrafoBonitinho()
-
+print("\n")
 g.DetectarCiclo("A")
-
+print("\n")
 g.ListarTudoEmProfundidade("A")
+print("\n")
 g.BuscarPorProfundidade("A", "F")
-
+print("\n")
 g.DelVertice("D")
-
+print("\n")
 g.ExibirGrafo()
