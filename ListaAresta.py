@@ -171,11 +171,51 @@ class Grafo:
                         pilha.append(vizinho)
         print(f'{vertproc} NÃO ENCONTRADO')
 
+    def DetectarCiclo(self, vertice):
+        pilha = [vertice]
+        visitados = []
+        if self.direcional:
+            pilhaAtivos = []
+
+        while pilha:
+            if self.direcional:
+                visitando = pilha.pop()
+                if visitando not in visitados:
+                    visitados.append(visitando)
+                    pilhaAtivos.append(visitando)
+                    vizinhos = self.VerificarVizinho(visitando)
+                    for vizinho in vizinhos:
+                        if vizinho in pilhaAtivos:
+                            print(f'Ciclo detectado envolvendo o vértice: {vizinho}')
+                            return True
+                        if (vizinho not in visitados) or (vizinho not in pilha):
+                            pilha.append(vizinho)
+                else:
+                    pilhaAtivos.remove(visitando)
+                continue
+            if len(pilha) > 1:
+                pai = pilha[-1]
+            visitando = pilha.pop()
+            if visitando not in visitados:
+                visitados.append(visitando)
+                vizinhos = self.VerificarVizinho(visitando)
+                for vizinho in vizinhos:
+                    if vizinho in visitados and vizinho != pai:
+                        print(f'Ciclo detectado envolvendo o vértice: {vizinho}')
+                        return True
+                    if (vizinho not in visitados) or (vizinho not in pilha):
+                        pilha.append(vizinho)
+
+
+        print('Nenhum ciclo detectado.')
+        return False
+        
+
 
     #def BuscaEm
 
 
-g = Grafo(False, ["A", "B", "C", "D", "E", "F", "G"])
+g = Grafo(True, ["A", "B", "C", "D", "E", "F", "G"])
 g.AddVertice("A")
 g.AddVertice("E")
 g.AddAresta("A", "B")
@@ -196,6 +236,8 @@ g.AddAresta("F", "G")
 # g.VerificarPercurso(["A", "C"])
 
 g.ExibirGrafoBonitinho()
+
+g.DetectarCiclo("A")
 
 g.ListarTudoEmProfundidade("A")
 g.BuscarPorProfundidade("A", "F")
