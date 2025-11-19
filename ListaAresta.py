@@ -193,18 +193,19 @@ class Grafo:
                 else:
                     pilhaAtivos.remove(visitando)
                 continue
-            if len(pilha) > 1:
-                pai = pilha[-1]
-            visitando = pilha.pop()
-            if visitando not in visitados:
-                visitados.append(visitando)
-                vizinhos = self.VerificarVizinho(visitando)
-                for vizinho in vizinhos:
-                    if vizinho in visitados and vizinho != pai:
-                        print(f'Ciclo detectado envolvendo o vértice: {vizinho}')
-                        return True
-                    if (vizinho not in visitados) or (vizinho not in pilha):
-                        pilha.append(vizinho)
+            else:
+                if len(pilha) > 1:
+                    pai = pilha[-1]
+                visitando = pilha.pop()
+                if visitando not in visitados:
+                    visitados.append(visitando)
+                    vizinhos = self.VerificarVizinho(visitando)
+                    for vizinho in vizinhos:
+                        if vizinho in visitados and vizinho != pai:
+                            print(f'Ciclo detectado envolvendo o vértice: {vizinho}')
+                            return True
+                        if (vizinho not in visitados) or (vizinho not in pilha):
+                            pilha.append(vizinho)
 
 
         print('Nenhum ciclo detectado.')
